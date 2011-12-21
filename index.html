@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Flowplayer Test</title>
+	<script src="flowplayer-3.2.6.js" type="text/javascript"></script>
+</head>
+
+<body>
+	<div id="flowplayerContainer" style="width: 500px; height: 300px;"></div>
+</body>
+
+<script type="text/javascript">
+	var FP_CONFIG = {
+		debug: true,
+	    log: {level: 'info', filter: 'com.iheart.stw.*'},
+	    //log: {level: 'debug', filter: '*'},
+	    
+	    onLoad: function() {
+			this.play({
+				provider: 'stw',
+				url: 'http://playerservices.streamtheworld.com/api/livestream-redirect/WXNYFMAAC.flv?terminalid=152&uid=0&init_id=8169&profileid=0&fb_broadcast=1&at=0&pname=OrganicWeb&campid=&cid=&keyid=',
+			});
+	    },
+	    
+		clip: {
+			// do something on embedded cuepoint
+			onMetaData: function(clip, p) {
+				console.debug(p.metaData);
+			}
+		}
+	};
+	
+	var f = $f('flowplayerContainer', 'build/flowplayer-3.2.7.swf', FP_CONFIG);
+</script>
+</html>

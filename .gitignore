@@ -1,0 +1,10 @@
+.svn
+
+build
+flex
+
+stw/build
+stw/.git
+
+rtmp/build
+audio/build
