@@ -1,5 +1,8 @@
 .svn
 
+*.swf
+*.swc
+
 build
 flex
 

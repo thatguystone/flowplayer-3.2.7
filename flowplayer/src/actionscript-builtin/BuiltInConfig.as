@@ -1,12 +1,12 @@
 package  {
 	import org.flowplayer.rtmp.RTMPStreamProvider;
 	import org.flowplayer.audio.AudioProvider;
-	import com.iheart.stw.StreamTheWorld;
+	import com.iheart.stw.StreamTheWorldProvider;
 
 	public class BuiltInConfig {
 		private var rtmp:RTMPStreamProvider;
 		private var audio:AudioProvider;
-		private var stw:StreamTheWorld;
+		private var stw:StreamTheWorldProvider;
 		
 		public static const config:Object = { 
 			"plugins": {
@@ -19,7 +19,7 @@ package  {
 					"url": "org.flowplayer.audio.AudioProvider"
 				},
 				stw: {
-					"url": "com.iheart.stw.StreamTheWorld"
+					"url": "com.iheart.stw.StreamTheWorldProvider"
 				}
 			}
 		};
