@@ -2,3 +2,4 @@
 2) The flowplayer distribution in flowplayer/ is setup to build the stw plugin already
 3) Init the stw submodule: git submodule init
 4) Setup your build.properties paths in flowplayer and flowplayer.devkit
+5) You need to build the commercial version to remove the branding: ant build-biz

@@ -1,4 +1,4 @@
-<project name="Flowplayer" default="build">
+<project name="Flowplayer" default="build-biz">
     <property file="build.generated.properties"/>
     <property file="build.properties"/>
 
