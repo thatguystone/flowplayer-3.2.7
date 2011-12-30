@@ -43,6 +43,7 @@ import org.flowplayer.flow_internal;
 		public static const ERROR:ClipEventType = new ClipEventType("onError");
 		public static const NETSTREAM_EVENT:ClipEventType = new ClipEventType("onNetStreamEvent");
 		public static const CONNECTION_EVENT:ClipEventType = new ClipEventType("onConnectionEvent");
+		public static const IDLE_TIMEOUT:ClipEventType = new ClipEventType("onIdleTimeout");
 
         public static const PLAYLIST_REPLACE:ClipEventType = new ClipEventType("onPlaylistReplace");
         public static const CLIP_ADD:ClipEventType = new ClipEventType("onClipAdd");

@@ -347,7 +347,6 @@ package org.flowplayer.controller {
          * @see #getConnectUrl()
          */
         protected function connect(clip:Clip, ... rest):void {
-
             if (_netStream) {
                 _netStream.close();
                 _netStream = null;
@@ -420,10 +419,14 @@ package org.flowplayer.controller {
                 dispatchEvent(event);
             } catch (e:Error) {
                 // netStream is invalid because of a timeout
-                log.info("doResume(): error catched " + e + ", will connect again. All resolved URLs are discarded.");
+                //this is only an issue with rtmp streams
+                log.debug("doResume(): error catched " + e + ", will connect again. All resolved URLs are discarded.");
                 clip.clearResolvedUrls();
-                dispatchEvent(new ClipEvent(ClipEventType.STOP));
+                //#191 send the resume event first before reconnecting so the player comes out of a paused state correctly.
+                dispatchEvent(event);
+                clip.startDispatched = false;
                 _started = false;
+                _paused = false;
                 connect(clip);
             }
         }
@@ -514,6 +517,13 @@ package org.flowplayer.controller {
          * Called when NetStatusEvents are received.
          */
         protected function onNetStatus(event:NetStatusEvent):void {
+            // can be overridden in subclasses
+        }
+        
+        /**
+         * Called when ConnectionStatus are received.
+         */
+        protected function onConnectionStatus(event:NetStatusEvent):void {
             // can be overridden in subclasses
         }
 
@@ -783,6 +793,7 @@ package org.flowplayer.controller {
             _volumeController.netStream = _netStream;
             clip.setNetStream(_netStream);
             _netStream.addEventListener(NetStatusEvent.NET_STATUS, _onNetStatus);
+            _connection.addEventListener(NetStatusEvent.NET_STATUS, onConnectionStatus);
         }
 
         protected function createNetStream(connection:NetConnection):NetStream {
@@ -798,9 +809,13 @@ package org.flowplayer.controller {
             // some files require that we seek to the first frame only after receiving metadata
             // otherwise we will never receive the metadata
             if (_pauseAfterStart) {
-                log.info("seeking to frame zero");
-                seek(null, 0);
-                dispatchPlayEvent(ClipEventType.PAUSE);
+                log.debug("seeking to frame zero");
+                //#363 pause stream here after metadata or else no metadata is sent for rtmp clips
+                pause(new ClipEvent(ClipEventType.PAUSE));
+
+                //#363 silent seek and force to seek to a frame or else video will not display
+                silentSeek = true;
+                netStream.seek(0.1);
                 _pauseAfterStart = false;
             }
         }
@@ -817,12 +832,6 @@ package org.flowplayer.controller {
                 dispatchError(ClipError.STREAM_LOAD_FAILED, "cannot load the video file, incorrect URL?: " + e.message);
             } catch (e:Error) {
                 dispatchError(ClipError.STREAM_LOAD_FAILED, "cannot play video: " + e.message);
-            }
-
-            if (pauseAfterStart) {
-                log.info("pausing to first frame!");
-                doPause(_netStream, null);
-                //				_netStream.seek(0);
             }
         }
 
