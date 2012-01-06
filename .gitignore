@@ -11,3 +11,6 @@ stw/.git
 
 rtmp/build
 audio/build
+
+/*.sublime*
+/*.komodoproject
