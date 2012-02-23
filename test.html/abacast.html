@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+	<title>Abacast Test</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<script type="text/javascript" src="flowplayer-3.2.6.min.js"></script>
+</head>
+
+<body>
+	<div id="player" style="width: 400px; height: 300px; float: left;"></div>
+</body>
+
+<script type="text/javascript">
+
+/**
+ * Strips whitespace or characers, from both ends of string.
+ * @param chars - Optional
+ */
+String.prototype.strip = function(chars) {
+  return this.lstrip(chars).rstrip(chars);
+};
+
+/**
+ * Strips whitespace or characers, from the beginning of string.
+ * @param chars - Optional
+ */
+String.prototype.lstrip = function (/* optional */chars) {
+  return chars
+    ? this.replace(new RegExp('^[' + chars + ']+'), '')
+    : this.replace(/^\s+/, '');
+};
+
+/**
+ * Strips whitespace or characers, from the beginning of string.
+ * @param chars - Optional
+ */
+String.prototype.rstrip = function (/* optional */chars) {
+  return chars
+    ? this.replace(new RegExp('[' + chars + ']+$'), '')
+    : this.replace(/\s+$/, '');
+};
+
+  parseUrl = function(url) {
+    var data = {},
+        kv;
+    
+    //added an extra space to tokenizer from:
+    //http://stackoverflow.com/questions/168171/regular-expression-for-parsing-name-value-pairs
+    var tokenizer = /([^ =,]*)=("(?:\\.|[^"\\]+)*"|[^,"]*)/g;
+    
+    while (kv = tokenizer.exec(url)) {
+      data[kv[1]] = kv[2].toString().strip('"');
+    }
+    
+    return data;
+  };
+  
+  
+	f = flowplayer('player', '../flowplayer/build/flowplayer.commercial-3.2.7.swf', {
+		debug: true,
+		log: {level: 'error', filter: 'org.flowplayer.rtmp.*'},
+		
+		plugins: {
+			rtmp: {
+				netConnectionUrl: 'rtmp://out4.atl.fla.abacast.com/abacast/',
+			}
+		},
+		
+		onLoad: function() {
+			f.play({
+				provider: 'rtmp',
+				url: 'http://icy2.abacast.com/abacast-iheartreadio-48',
+				live: true,
+				subscribe: true
+			});
+		},
+		
+		clip: {
+			onMetaData: function(data) {
+				var d = data.metaData,
+					start = d.StreamTitle.indexOf(' - '),
+            		url = parseUrl(d.StreamTitle.substring(start + 3)); //+3 -> ignore the delimeter
+            	
+            	data = {};
+        
+        		data.artistName = d.StreamTitle.substring(0, start); //the start of the string, up to the first key, is the title
+        		data.title = url.text;
+				
+				console.log(data, url);
+			}
+		}
+	});
+</script>
+
+</html>

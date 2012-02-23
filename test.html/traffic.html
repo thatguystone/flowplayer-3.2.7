@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+	<title>Traffic Test</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<script type="text/javascript" src="flowplayer-3.2.6.min.js"></script>
+</head>
+
+<body>
+	<div id="player" style="width: 400px; height: 300px; float: left;"></div>
+</body>
+
+<script type="text/javascript">
+	f = flowplayer('player', '../flowplayer/build/flowplayer.commercial-3.2.7.swf', {
+		debug: true,
+		log: {level: 'error', filter: '*'},
+		
+		clip: {
+			url: 'http://content.clearchannel.com/traffic/TTN-LAX-IHEART.m4a'
+		}
+	});
+</script>
+
+</html>
