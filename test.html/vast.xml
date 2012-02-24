@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VAST version="2.0">	<Ad id="57279795">
+		<Wrapper>
+			<AdSystem version="4.4.0-1">LiveRail</AdSystem>
+			<VASTAdTagURI><![CDATA[http://addirector.vindicosuite.com/Feeds/AdDirector/VAST/2/?rotationId=Starcom_Wrigley_Extra_Q1_2012_PreRoll_DBG_*NOGOAL*]]></VASTAdTagURI>
+    		<Impression id="LR"><![CDATA[http://t4.liverail.com/?metric=impression&pos=0&coid=12295&pid=8550&oid=57279795&olid=57232440&cid=30057&vid=&amid=&cc=default&pp=&vv=478&tt=&sg=&tsg=&url=%5BURL%5D&cb=7544.24.152.155.21&x=683&y=755&xy=abc4]]></Impression>
+            <Impression id="QC"><![CDATA[http://pixel.quantserve.com/pixel/p-d05JkuPGiy-jY.gif?labels=inventory.8550,impression.57232440&r=7544]]></Impression>
+            <Impression><![CDATA[http://pixel.quantserve.com/pixel/p-880VuiLJccEFM.gif]]></Impression>
+            <Impression><![CDATA[http://edge.aperture.displaymarketplace.com/audmeasure.gif?liveconclientID=3431679507905&CreativeID=30057&PlacementID=57230545&EventType=Impression&PixelID=164&cb=1326219096]]></Impression>
+            <Impression><![CDATA[http://event.adxpose.com/event.flow?uid=aL6FOc5kI3UTDuaL_30057&eventcode=000_000_12&location=&wh=&xy=&vchannel=57230545&cid=WRG0002_Extra&duration=0&iframed=0&referer=&p=1]]></Impression>
+            <Impression><![CDATA[http://t4.liverail.com/?metric=rsync&p=1001&redirect=http%3A%2F%2Fsearch.spotxchange.com%2Fpartner%3Fadv_id%3D6498%26uid%3D61657372%26img%3DIMG]]></Impression>
+			<Creatives>
+				<Creative sequence="1">
+            		<Linear>
+            			<VideoClicks>
+            				<ClickTracking><![CDATA[http://t4.liverail.com/?metric=clickthru&pos=0&coid=12295&pid=8550&oid=57279795&olid=57232440&cid=30057&vid=&amid=&cc=default&pp=&vv=478&tt=&sg=&tsg=&url=%5BURL%5D&cb=7544.24.152.155.21&x=&y=&xy=&redirect=]]></ClickTracking>
+            			
+						</VideoClicks>
+    			    	<TrackingEvents>
+							<Tracking event="firstQuartile"><![CDATA[http://t4.liverail.com/?metric=view25&pos=0&coid=12295&pid=8550&oid=57279795&olid=57232440&cid=30057&vid=&amid=&cc=default&pp=&vv=478&tt=&sg=&tsg=&url=%5BURL%5D&cb=7544.24.152.155.21&x=&y=&xy=]]></Tracking>
+							<Tracking event="midpoint"><![CDATA[http://t4.liverail.com/?metric=view50&pos=0&coid=12295&pid=8550&oid=57279795&olid=57232440&cid=30057&vid=&amid=&cc=default&pp=&vv=478&tt=&sg=&tsg=&url=%5BURL%5D&cb=7544.24.152.155.21&x=&y=&xy=]]></Tracking>
+							<Tracking event="thirdQuartile"><![CDATA[http://t4.liverail.com/?metric=view75&pos=0&coid=12295&pid=8550&oid=57279795&olid=57232440&cid=30057&vid=&amid=&cc=default&pp=&vv=478&tt=&sg=&tsg=&url=%5BURL%5D&cb=7544.24.152.155.21&x=&y=&xy=]]></Tracking>
+							<Tracking event="complete"><![CDATA[http://t4.liverail.com/?metric=view100&pos=0&coid=12295&pid=8550&oid=57279795&olid=57232440&cid=30057&vid=&amid=&cc=default&pp=&vv=478&tt=&sg=&tsg=&url=%5BURL%5D&cb=7544.24.152.155.21&x=&y=&xy=]]></Tracking>
+							<Tracking event="mute"><![CDATA[http://t4.liverail.com/?metric=mute&pos=0&coid=12295&pid=8550&oid=57279795&olid=57232440&cid=30057&vid=&amid=&cc=default&pp=&vv=478&tt=&sg=&tsg=&url=%5BURL%5D&cb=7544.24.152.155.21&x=&y=&xy=]]></Tracking>
+							<Tracking event="unmute"><![CDATA[http://t4.liverail.com/?metric=unmute&pos=0&coid=12295&pid=8550&oid=57279795&olid=57232440&cid=30057&vid=&amid=&cc=default&pp=&vv=478&tt=&sg=&tsg=&url=%5BURL%5D&cb=7544.24.152.155.21&x=&y=&xy=]]></Tracking>
+							<Tracking event="pause"><![CDATA[http://t4.liverail.com/?metric=pause&pos=0&coid=12295&pid=8550&oid=57279795&olid=57232440&cid=30057&vid=&amid=&cc=default&pp=&vv=478&tt=&sg=&tsg=&url=%5BURL%5D&cb=7544.24.152.155.21&x=&y=&xy=]]></Tracking>
+							<Tracking event="resume"><![CDATA[http://t4.liverail.com/?metric=resume&pos=0&coid=12295&pid=8550&oid=57279795&olid=57232440&cid=30057&vid=&amid=&cc=default&pp=&vv=478&tt=&sg=&tsg=&url=%5BURL%5D&cb=7544.24.152.155.21&x=&y=&xy=]]></Tracking>
+							<Tracking event="fullscreen"><![CDATA[http://t4.liverail.com/?metric=fullscreen&pos=0&coid=12295&pid=8550&oid=57279795&olid=57232440&cid=30057&vid=&amid=&cc=default&pp=&vv=478&tt=&sg=&tsg=&url=%5BURL%5D&cb=7544.24.152.155.21&x=&y=&xy=]]></Tracking>
+							<Tracking event="close"><![CDATA[http://t4.liverail.com/?metric=close&pos=0&coid=12295&pid=8550&oid=57279795&olid=57232440&cid=30057&vid=&amid=&cc=default&pp=&vv=478&tt=&sg=&tsg=&url=%5BURL%5D&cb=7544.24.152.155.21&x=&y=&xy=]]></Tracking>
+							<Tracking event="acceptInvitation"><![CDATA[http://t4.liverail.com/?metric=accept&pos=0&coid=12295&pid=8550&oid=57279795&olid=57232440&cid=30057&vid=&amid=&cc=default&pp=&vv=478&tt=&sg=&tsg=&url=%5BURL%5D&cb=7544.24.152.155.21&x=&y=&xy=]]></Tracking>
+
+    					</TrackingEvents>	
+    				</Linear>
+    			</Creative>
+    			
+    			<Creative sequence="1">
+    				<CompanionAds>
+        				<Companion id="test">
+							<TrackingEvents>
+								<Tracking event="creativeView"><![CDATA[http://t4.liverail.com/?metric=companion&pos=0&coid=12295&pid=8550&oid=57279795&olid=57232440&cid=30057&vid=&amid=&cc=default&pp=&vv=478&tt=&sg=&tsg=&url=%5BURL%5D&cb=7544.24.152.155.21&x=&y=&xy=]]></Tracking>
+							</TrackingEvents>
+                            <CompanionClickThrough><![CDATA[http://t4.liverail.com/?metric=cclickthru&pos=0&coid=12295&pid=8550&oid=57279795&olid=57232440&cid=30057&vid=&amid=&cc=default&pp=&vv=478&tt=&sg=&tsg=&url=%5BURL%5D&cb=7544.24.152.155.21&x=&y=&xy=]]></CompanionClickThrough>
+        				</Companion>
+    				</CompanionAds>
+    			</Creative>
+    		</Creatives>
+		</Wrapper>
+	</Ad>
+</VAST><!-- 8 US_CALIFORNIA_LOSANGELESCA_BEAUMONT -->
