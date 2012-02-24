@@ -38,7 +38,7 @@ package org.flowplayer.controller {
         public function ClipURLResolverHelper(player:Flowplayer, streamProvider:StreamProvider, defaultURLResolver:ClipURLResolver = null) {
 			_player = player;
 			_streamProvider = streamProvider;
-			_defaultClipUrlResolver = _defaultClipUrlResolver ? _defaultClipUrlResolver : getDefaultClipURLResolver();
+			_defaultClipUrlResolver = defaultURLResolver ? defaultURLResolver : getDefaultClipURLResolver();
         }
 
         /**
@@ -76,6 +76,7 @@ package org.flowplayer.controller {
             }
 
             if (! _clipUrlResolver) {
+                log.debug('using default clip url resolver');
                 _clipUrlResolver = _defaultClipUrlResolver;
             }
 
