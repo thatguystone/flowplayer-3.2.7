@@ -58,20 +58,19 @@ String.prototype.rstrip = function (/* optional */chars) {
   
 	f = flowplayer('player', '../flowplayer/build/flowplayer.commercial-3.2.7.swf', {
 		debug: true,
-		log: {level: 'error', filter: 'org.flowplayer.rtmp.*'},
+		log: {level: 'info', filter: 'org.flowplayer.rtmp.*'},
 		
 		plugins: {
 			rtmp: {
-				netConnectionUrl: 'rtmp://out4.atl.fla.abacast.com/abacast/',
+				url: '../rtmp/build/flowplayer.rtmp.swf'
+				//netConnectionUrl: 'rtmp://out4.atl.fla.abacast.com/abacast/',
 			}
 		},
 		
 		onLoad: function() {
 			f.play({
 				provider: 'rtmp',
-				url: 'http://icy2.abacast.com/abacast-iheartreadio-48',
-				live: true,
-				subscribe: true
+				url: 'rtmp://out4.atl.fla.abacast.com/abacast/http://icy2.abacast.com/abacast-iheartreadio-48'
 			});
 		},
 		

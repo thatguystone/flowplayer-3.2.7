@@ -179,7 +179,15 @@ package org.flowplayer.rtmp {
 		private function getStreamName(clip : Clip) : String {
 			var url : String = clip.url;
 			
-			if (url.indexOf('http://') == -1 && URLUtil.isCompleteURLWithProtocol(url)) {
+			//if it starts with 'rtmp', then cut out the RTMP url + app to get the stream
+			if (url.indexOf('rtmp') == 0) {
+				var urlIndex:int = url.indexOf('/', url.indexOf('://') + 3), //first slash ends the host
+					appIndex:int = url.indexOf('/', urlIndex + 1); //second slash ends the app
+					
+				return url.substring(appIndex + 1); //everything following the second slash is the stream
+			}
+			
+			if (URLUtil.isCompleteURLWithProtocol(url)) {
 				var lastSlashPos : Number = url.lastIndexOf("/");
 				return url.substring(lastSlashPos + 1);
 			}
