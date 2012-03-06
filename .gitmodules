@@ -1,3 +1,6 @@
 [submodule "stw"]
 	path = stw
 	url = git://github.com/thatguystone/flowplayer-streamtheworld.git
+[submodule "ima"]
+	path = ima
+	url = git@github.com:thatguystone/flowplayer-ima.git
