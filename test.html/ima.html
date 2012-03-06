@@ -34,18 +34,18 @@
 		googletag.enableServices();
 	});
 	
-	f = flowplayer('player', '../flowplayer/flowplayer/build/flowplayer.commercial-3.2.7.swf', {
+	f = flowplayer('player', '../flowplayer/build/flowplayer.commercial-3.2.7.swf', {
 		debug: true,
 		log: {level: 'debug', filter: 'com.iheart.ima.*'},
 		
 		plugins: {
 			ima: {
-				url: '../flowplayer/ima/build/flowplayer.ima.swf'
+				url: '../ima/build/flowplayer.ima.swf'
 			}
 		},
 		
 		onLoad: function() {
-			f.getPlugin('ima').playAd('http://localhost/IHR/test/vast.good.xml');
+			f.getPlugin('ima').playAd('http://localhost/IHR/flowplayer/test.html/vast.good.xml');
 		}
 	});
 </script>

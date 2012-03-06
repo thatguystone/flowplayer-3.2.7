@@ -16,19 +16,21 @@
  *	along with flowplayer-streamtheworld.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.iheart.ima {
-	import flash.net.NetStream;
-	
 	import org.flowplayer.controller.NetStreamControllingStreamProvider;
 	import org.flowplayer.controller.StreamProvider;
 	import org.flowplayer.controller.TimeProvider;
 	import org.flowplayer.controller.VolumeController;
+	import org.flowplayer.model.Clip;
+	import org.flowplayer.model.ClipEvent;
 	import org.flowplayer.model.DisplayProperties;
+	import org.flowplayer.model.Playlist;
 	import org.flowplayer.model.Plugin;
-	import org.flowplayer.model.PluginModel;
 	import org.flowplayer.model.PluginEventType;
+	import org.flowplayer.model.PluginModel;
 	import org.flowplayer.util.Log;
 	import org.flowplayer.util.PropertyBinder;
 	import org.flowplayer.view.Flowplayer;
+	import org.flowplayer.model.PlayButtonOverlay;
 	
 	/**
 	 * The mass of imports needed for IMA Ads from Google
@@ -39,59 +41,45 @@ package com.iheart.ima {
 	import com.google.ads.instream.api.AdEvent;
 	import com.google.ads.instream.api.AdLoadedEvent;
 	import com.google.ads.instream.api.AdSizeChangedEvent;
-	import com.google.ads.instream.api.AdTypes;
 	import com.google.ads.instream.api.AdsLoadedEvent;
 	import com.google.ads.instream.api.AdsLoader;
 	import com.google.ads.instream.api.AdsManager;
 	import com.google.ads.instream.api.AdsManagerTypes;
 	import com.google.ads.instream.api.AdsRequest;
 	import com.google.ads.instream.api.AdsRequestType;
-	import com.google.ads.instream.api.CompanionAd;
-	import com.google.ads.instream.api.CompanionAdEnvironments;
+	import com.google.ads.instream.api.AdTypes;
 	import com.google.ads.instream.api.CustomContentAd;
 	import com.google.ads.instream.api.FlashAd;
 	import com.google.ads.instream.api.FlashAdCustomEvent;
 	import com.google.ads.instream.api.FlashAdsManager;
-	import com.google.ads.instream.api.HtmlCompanionAd;
 	import com.google.ads.instream.api.VastVideoAd;
 	import com.google.ads.instream.api.VastWrapper;
 	import com.google.ads.instream.api.VideoAd;
 	import com.google.ads.instream.api.VideoAdsManager;
-
+	
+	/**
+	 * For tinkering with the ads
+	 */
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	import flash.external.ExternalInterface;
-	import flash.geom.Point;
 	import flash.media.Video;
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
 
-	import flash.utils.Dictionary;
-
-	import org.flowplayer.model.Clip;
-	import org.flowplayer.model.ClipEvent;
-	import org.flowplayer.model.Playlist;
-
-	import flash.display.DisplayObject;
-
 	public class InteractiveMediaAdsProvider extends Sprite implements Plugin {
 		private var log:Log = new Log(this);
+		private var _ad:Object;
+		private var _adsLoader:AdsLoader;
+		private var _companions:CompanionManager = new CompanionManager()
 		private var _config:Config;
 		private var _model:PluginModel;
-		private var _screen:DisplayProperties;
-		private var _adsLoader:AdsLoader;
 		private var _video:Video;
+		private var _player:Flowplayer;
 		
-		private var _area:InteractiveMediaAds;
-		
-		public static const BEFORE_AD_LOAD:String = "onBeforeAdLoad";
-		public static const AD_PLAY:String = "onAdPlay";
-		
-		public static const AD_ERROR:String = "onAdError";
-		
-		function InteractiveMediaAdsProvider(area:InteractiveMediaAds) {
-			_area = area;
+		function InteractiveMediaAdsProvider() {
+			//make sure the plugin is hidden
+			visible = false;
 		}
 		
 		/**
@@ -114,7 +102,7 @@ package com.iheart.ima {
 		}
 		
 		public function onLoad(player:Flowplayer):void {
-			_screen = player.pluginRegistry.getPlugin("screen") as DisplayProperties;
+			_player = player;
 			_model.dispatchOnLoad();
 		}
 		
@@ -125,21 +113,20 @@ package com.iheart.ima {
 		
 		[External]
 		public function playAd(url:String):void {
-			if (!_model.dispatchBeforeEvent(PluginEventType.PLUGIN_EVENT, BEFORE_AD_LOAD)) {
+			if (!_model.dispatchBeforeEvent(PluginEventType.PLUGIN_EVENT, Events.BEFORE_AD_LOAD)) {
 				log.info('not playing ad');
 				return;
 			}
 			
-			log.info('before _adsLoader');
+			_playButton('hideButton');
+			
 			if (!_adsLoader) {
 				_adsLoader = new AdsLoader();
 				_adsLoader.addEventListener(AdsLoadedEvent.ADS_LOADED, onAdsLoaded);
 				_adsLoader.addEventListener(AdErrorEvent.AD_ERROR, onAdError);
 			}
 			
-			log.info('before ad request');
 			_adsLoader.requestAds(createAdsRequest(url));
-			log.info('ad requested');
 		}
 		
 		/**
@@ -147,112 +134,114 @@ package com.iheart.ima {
 		 * -----------------------------------------------------------------------------------------
 		 */
 		
+		private function _playButton(method:String):void {
+			var obj:Object = _player.pluginRegistry.getPlugin('play');
+			obj && obj.getDisplayObject()[method]();
+		}
+		 
+		private function _resize():void {
+			width = stage.width;
+			height = stage.height;
+			
+			//draw a black background
+			graphics.beginFill(0x000000);
+            graphics.drawRect(0, 0, stage.width, stage.height);
+            graphics.endFill();
+		}
+		
 		private function createAdsRequest(url:String):AdsRequest {
-			var request:AdsRequest = new AdsRequest(),
-				width:int = _screen.getDisplayObject().width,
-				height:int = _screen.getDisplayObject().height;
+			var request:AdsRequest = new AdsRequest();
 			
-			request.adSlotWidth = width;
-			request.adSlotHeight = height;
-			
-			_video = new Video(width, height);
+			_video = new Video(stage.width, stage.height);
 			addChild(_video);
 			
-			this.width = width;
-			this.height = height;
-			
-			log.info("WxH: " + this.width + "x" + this.height);
-			
+			request.adSlotHeight = stage.height;
+			request.adSlotWidth = stage.width;
+			request.adTagUrl = url;
+			request.adType = AdsRequestType.VIDEO;
 			request.disableCompanionAds = _config.disableCompanionAds;
 			
-			//request.adTagUrl = 'http://ad.doubleclick.net/pfadx/ccr.newyork.ny/whtz-fm;ccrcontent1=null;ccrcontent2=live;ccrcontent3=null;ccrlocalcontent=null;ccrpos=7005;sourceaffiliate=whtz-fm;ccrformat=CHRPOP;ccrmarket=NEWYORK-NY;sz=1000x27;u=ccrcontent1*null!ccrcontent2*live!ccrcontent3*null!ccrlocalcontent*null!ccrpos*7005!sourceaffiliate*whtz-fm!ccrformat*CHRPOP!ccrmarket*NEWYORK-NY!sz*1000x27!;ord=670389610108713.6';
-			
-			//request.adTagUrl = 'http://ad.doubleclick.net/pfadx/ccr.macon.ga.n/wibb-fm;ccrcontent1=null;ccrcontent2=live;ccrcontent3=null;ccrlocalcontent=null;ccrpos=7005;sourceaffiliate=null;ccrformat=URBAN;ccrmarket=MACON-GA;group=cc;sz=1000x27;u=ccrcontent1*null!ccrcontent2*live!ccrcontent3*null!ccrlocalcontent*null!ccrpos*7005!sourceaffiliate*null!ccrformat*URBAN!ccrmarket*MACON-GA!group*cc!sz*1000x27;ord=1326212688261';
-			
-			//request.adTagUrl = 'http://localhost/IHR/test/vast.xml';
-			
-			request.adTagUrl = url;
-			
-			request.adType = AdsRequestType.VIDEO;
-			
 			return request;
-		}
-		
-		private function displayCompanions(adsManager:AdsManager):void {
-			log.debug("AdsManager type: " + adsManager.type);
-			
-			var ads:Array = adsManager.ads;
-			if (ads) {
-				log.debug(ads.length + " ads loaded");
-				for each (var ad:Ad in ads) {
-					renderHtmlCompanionAd(
-						ad.getCompanionAds(CompanionAdEnvironments.HTML, 300, 250),
-						"300x250"
-					);
-				}
-			}
-		}
-		
-		private function renderHtmlCompanionAd(companionArray:Array, size:String):void {
-			if (companionArray.length > 0) {
-				log.debug("There are " + companionArray.length + " companions for this ad.");
-				var companion:CompanionAd = companionArray[0] as CompanionAd;
-				if (companion.environment == CompanionAdEnvironments.HTML) {
-					log.debug("companion " + size + " environment: " + companion.environment);
-					var htmlCompanion:HtmlCompanionAd = companion as HtmlCompanionAd;
-					
-					if (ExternalInterface.available) {
-						log.debug('writing ad to external interface');
-						ExternalInterface.call('writeIntoCompanionDiv', htmlCompanion.content, size);
-					}
-				}
-			}
 		}
 		
 		/**
 		 * Ad Events
 		 * -----------------------------------------------------------------------------------------
 		 */
-		 
+		
+		/**
+		 * Once the VAST is done loaded and all ready
+		 */
 		private function onAdsLoaded(e:AdsLoadedEvent):void {
 			var adsManager:AdsManager = e.adsManager;
 			
-			adsManager.addEventListener(AdLoadedEvent.LOADED, onAdLoaded);
-			adsManager.addEventListener(AdEvent.STARTED, onAdStarted);
 			adsManager.addEventListener(AdErrorEvent.AD_ERROR, onAdError);
+			adsManager.addEventListener(AdEvent.COMPLETE, onAdComplete);
+			adsManager.addEventListener(AdEvent.STARTED, onAdStarted);
+			adsManager.addEventListener(AdLoadedEvent.LOADED, onAdLoaded);
 			
 			if (adsManager.type == AdsManagerTypes.VIDEO) {
-				log.info(adsManager.type);
 				var videoAdsManager:VideoAdsManager = adsManager as VideoAdsManager;
-				videoAdsManager.clickTrackingElement = _area;
+				videoAdsManager.clickTrackingElement = this;
 				videoAdsManager.load(_video);
 				videoAdsManager.play();
+			} else {
+				_model.dispatch(PluginEventType.PLUGIN_EVENT, Events.AD_ERROR, Errors.UNSUPPORTED_TYPE);
 			}
 			
-			displayCompanions(adsManager);
+			_companions.displayCompanions(adsManager);
 		}
 		
+		/**
+		 * Any errors that happen on the network
+		 */
 		private function onAdError(e:AdErrorEvent):void {
 			var adError:AdError = e.error;
-			log.error("Ad error: " + adError.errorMessage);
-			log.error("Ad error code: " + adError.errorCode);
-			if (adError.innerError != null) {
-				log.error("Caused by: " + adError.innerError.message);
+			
+			visible = false;
+			
+			_model.dispatch(PluginEventType.PLUGIN_EVENT, Events.AD_ERROR, adError.errorCode, adError.errorMessage);
+		}
+		
+		/**
+		 * A single, specific ad that meets our requirements has been loaded.  No 
+		 * size information about the ad is present in _video.
+		 */
+		private function onAdLoaded(e:AdLoadedEvent):void {
+			_resize();
+			
+			var adType:String = '';
+			if (e['ad']) {
+				adType = MediaTool.getMediaType(e['ad']['mediaUrl']);
 			}
 			
-			_model.dispatch(PluginEventType.PLUGIN_EVENT, AD_ERROR, adError.errorMessage);
+			_ad = {
+				adType: adType
+			};
+			
+			_model.dispatch(PluginEventType.PLUGIN_EVENT, Events.AD_LOADED, _ad);
 		}
 		
-		private function onAdLoaded(event:AdLoadedEvent):void {
-			log.info("Ad loaded: " + _video.videoHeight + "x" + _video.videoWidth);
+		/*
+		 * The single ad is playing.
+		 */
+		private function onAdStarted(e:AdEvent):void {
+			visible = true;
+			
+			MediaTool.scaleVideo(_video, [_video.videoWidth, _video.videoHeight], [stage.width, stage.height]);
+			MediaTool.centerVideo(_video, this);
+			
+			_model.dispatch(PluginEventType.PLUGIN_EVENT, Events.AD_START, _ad);
 		}
 		
-		private function onAdStarted(event:AdEvent):void {
-			log.info("Ad started---: " + _video.videoHeight + "x" + _video.videoWidth);
-			if (_video.videoWidth && _video.videoHeight) {
-				_video.width = _video.videoWidth;
-				_video.height = _video.videoHeight;
-			}
+		/**
+		 * The ad is done playing.
+		 */
+		private function onAdComplete(e:AdEvent):void {
+			visible = false;
+			_playButton('showButton');
+			
+			_model.dispatch(PluginEventType.PLUGIN_EVENT, Events.AD_FINISH, _ad);
 		}
 	}
 }

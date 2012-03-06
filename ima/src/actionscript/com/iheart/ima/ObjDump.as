@@ -16,12 +16,18 @@
  *	along with flowplayer-streamtheworld.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.iheart.ima {
-	import org.flowplayer.model.PluginFactory;      
-	import flash.display.Sprite;
-
-	public class InteractiveMediaAds extends Sprite implements PluginFactory {
-		public function newPlugin():Object {
-			return new InteractiveMediaAdsProvider();
+	import org.flowplayer.util.Log;
+	
+	import mx.utils.ObjectUtil;
+	import flash.utils.describeType;
+	
+	internal class ObjDump {
+		public static function dump(log:Log, obj:Object):void {
+			for each (var id:Object in ObjectUtil.getClassInfo(obj).properties) {
+				log.info('---- ' + id.toString());
+			}
+			
+			log.info('Xml: ' + describeType(obj));
 		}
 	}
 }
