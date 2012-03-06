@@ -2,11 +2,13 @@ package  {
 	import org.flowplayer.rtmp.RTMPStreamProvider;
 	import org.flowplayer.audio.AudioProvider;
 	import com.iheart.stw.StreamTheWorldProvider;
+	import com.iheart.ima.InteractiveMediaAdsProvider;
 
 	public class BuiltInConfig {
 		private var rtmp:RTMPStreamProvider;
 		private var audio:AudioProvider;
 		private var stw:StreamTheWorldProvider;
+		private var ima:InteractiveMediaAdsProvider;
 		
 		public static const config:Object = {
 			//don't show any errors on FP's screen
@@ -32,6 +34,9 @@ package  {
 				},
 				stw: {
 					"url": "com.iheart.stw.StreamTheWorldProvider"
+				},
+				ima: {
+					"url": "com.iheart.ima.InteractiveMediaAdsProvider"
 				}
 			}
 		};

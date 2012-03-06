@@ -36,12 +36,12 @@
 	
 	f = flowplayer('player', '../flowplayer/build/flowplayer.commercial-3.2.7.swf', {
 		debug: true,
-		log: {level: 'debug', filter: 'com.iheart.ima.*'},
+		log: {level: 'error', filter: '*'},
 		
 		plugins: {
-			ima: {
+			/*ima: {
 				url: '../ima/build/flowplayer.ima.swf'
-			}
+			}*/
 		},
 		
 		onLoad: function() {
