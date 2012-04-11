@@ -87,7 +87,11 @@ package org.flowplayer.view {
 					log.debug("we don't have a size yet.. waiting for the video object to have a size");
 					return;
 				}
-
+				
+				if (_resizerTimer) {
+					_resizerTimer.reset();
+				}
+				
 				if (resizer.resizeTo(mediaSize, force)) {
 					screen.resized(clip);
 				}
@@ -99,7 +103,7 @@ package org.flowplayer.view {
 			} else {
 				// delayed one
 				log.warn("we don't have a size now, delaying the resize");
-				_resizerTimer = new Timer(500, 5);
+				_resizerTimer = new Timer(100, 25);
 				_resizerTimer.addEventListener(TimerEvent.TIMER, resizingFunc);
 				_resizerTimer.start();
 				
