@@ -54,7 +54,11 @@ package org.flowplayer.controller {
             } else if (event == ClipEventType.RESUME) {
                 resume(new ClipEvent(event));
             } else if (event == ClipEventType.STOP) {
-                stop(new ClipEvent(event), params[0], params[1]);
+            	if (params) {
+                	stop(new ClipEvent(event), params[0], params[1]);
+                } else {
+                	stop(new ClipEvent(event));
+                }
             } else if (event == ClipEventType.SEEK) {
                 seekTo(new ClipEvent(event), params[0]);
             } else if (event == ClipEventType.SWITCH) {
@@ -157,7 +161,7 @@ package org.flowplayer.controller {
 			doResume(event);
 		}
 
-		private function stop(event:ClipEvent, closeStream:Boolean, silent:Boolean = false):void {
+		private function stop(event:ClipEvent, closeStream:Boolean = true, silent:Boolean = false):void {
 			log.debug("stop " + durationTracker);
 			if (durationTracker) {
 				durationTracker.stop();
