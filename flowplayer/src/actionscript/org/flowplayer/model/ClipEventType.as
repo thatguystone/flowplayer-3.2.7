@@ -46,6 +46,7 @@ import org.flowplayer.flow_internal;
 		public static const IDLE_TIMEOUT:ClipEventType = new ClipEventType("onIdleTimeout");
 
         public static const PLAYLIST_REPLACE:ClipEventType = new ClipEventType("onPlaylistReplace");
+       	public static const PLAYLIST_COMPLETE:ClipEventType = new ClipEventType("onPlaylistComplete");
         public static const CLIP_ADD:ClipEventType = new ClipEventType("onClipAdd");
         public static const CLIP_RESIZED:ClipEventType = new ClipEventType("onResized");
 
