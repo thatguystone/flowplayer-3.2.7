@@ -21,7 +21,6 @@ package org.flowplayer.controller {
 	import org.flowplayer.flow_internal;
 	import org.flowplayer.model.Clip;
 	import org.flowplayer.model.ClipEvent;
-	import org.flowplayer.model.ClipEventType;
 	import org.flowplayer.model.ClipType;
 	import org.flowplayer.model.Playlist;
 	import org.flowplayer.model.ProviderModel;
@@ -164,12 +163,7 @@ package org.flowplayer.controller {
 		}
 		
 		flow_internal function next(obeyClipPlaySettings:Boolean, silent:Boolean = false, skipPreAndPostroll:Boolean = true):Clip {
-			
-			if (!_playList.hasNext(skipPreAndPostroll)) {
-				_playList.current.dispatch(ClipEventType.PLAYLIST_COMPLETE);
-				return _playList.current;
-			}
-			
+			if (!_playList.hasNext(skipPreAndPostroll)) return _playList.current;
 			return moveTo(_playList.next, obeyClipPlaySettings, silent, skipPreAndPostroll);
 		}
 

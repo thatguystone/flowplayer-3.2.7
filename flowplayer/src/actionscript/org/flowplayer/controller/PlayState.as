@@ -268,8 +268,6 @@ package org.flowplayer.controller {
                     log.debug("onClipDone(), calling stop(closeStream = false, silent = true)");
                     stop(false, true);
                     changeState(waitingState);
-                    
-                    clip.dispatch(ClipEventType.PLAYLIST_COMPLETE);
                 } else {
                     playListController.rewind();
                 }
