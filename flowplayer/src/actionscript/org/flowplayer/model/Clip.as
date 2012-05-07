@@ -21,7 +21,7 @@ package org.flowplayer.model {
 
     import org.flowplayer.controller.ClipURLResolver;
     import org.flowplayer.controller.ConnectionProvider;
-import org.flowplayer.flow_internal;
+    import org.flowplayer.flow_internal;
 	import org.flowplayer.model.ClipEvent;
 	import org.flowplayer.util.ArrayUtil;
 	import org.flowplayer.util.Log;
@@ -37,7 +37,6 @@ import org.flowplayer.flow_internal;
 	 * @inheritDoc
 	 */
 	public class Clip extends ClipEventDispatcher {
-
         // the main playlist where this clip belongs to
         private var _playlist:Playlist;
         private var _childPlaylist:TimedPlaylist;
@@ -50,6 +49,7 @@ import org.flowplayer.flow_internal;
 //		private var _previousPositives:Array;
 		private var _baseUrl:String;
 		private var _url:String;
+        private var _originalUrl:String;
         private var _urlsByResolver:Array;
         private var _urlResolverObjects:Array;
 		private var _type:ClipType;
@@ -134,6 +134,7 @@ import org.flowplayer.flow_internal;
             clip._url = url;
             clip._baseUrl = baseUrl;
             clip._autoPlay = true;
+            clip._originalUrl = clipObj['url'];
             return clip;
         }
 
@@ -299,7 +300,7 @@ import org.flowplayer.flow_internal;
 
         [Value]
         public function get originalUrl():String {
-            return _url;
+            return _originalUrl;
         }
 
 		public function set url(url:String):void {
@@ -943,7 +944,7 @@ import org.flowplayer.flow_internal;
         flow_internal function get clipObject():Object {
             return _clipObject;
         }
-
+        
         /**
          * Gets the NetStream object that is currently associated with this clip, or <code>null</code> if none is
          * currently associated.

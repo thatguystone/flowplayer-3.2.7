@@ -13,7 +13,7 @@
 <script type="text/javascript">
 	f = flowplayer('player', '../flowplayer/build/flowplayer.commercial-3.2.7.swf', {
 		debug: true,
-		log: {level: 'info', filter: 'com.iheart.stw.*'},
+		log: {level: 'debug', filter: 'com.iheart.stw.*'},
 		
 		plugins: {
 			stw: {
@@ -22,10 +22,13 @@
 		},
 		
 		onLoad: function() {
-			f.play({
-				provider: 'stw',
-				url: 'stw://KGBTFMAAC/?terminalid=152&uid=1328636170081&init_id=8169&profileid=0&fb_broadcast=1&at=0&pname=OrganicWeb&campid=&cid=&keyid='
-			});
+			setTimeout(function() {
+				f.play({
+					provider: 'stw',
+					url: 'stw://WXNYFMAAC/',
+					live: true
+				});
+			}, 1000);
 		},
 		
 		clip: {

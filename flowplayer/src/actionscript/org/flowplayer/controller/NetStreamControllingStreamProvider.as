@@ -126,7 +126,7 @@ package org.flowplayer.controller {
 
             clip.startDispatched = false;
             log.debug("previously started clip " + _startedClip);
-            if (_startedClip && _startedClip == clip && _connection && _netStream) {
+            if (!clip.live && _startedClip && _startedClip == clip && _connection && _netStream) {
                 log.info("playing previous clip again, reusing existing connection and resuming");
                 _started = false;
                 replay(clip);
