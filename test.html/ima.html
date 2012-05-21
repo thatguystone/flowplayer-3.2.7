@@ -50,6 +50,16 @@
 			}
 		},
 		
+		onStart: function() {
+			timeout = setInterval(function() {
+				console.info(f.getClip().fullDuration);
+			}, 900);
+		},
+		
+		onFinish: function() {
+			clearTimeout(timeout);
+		},
+		
 		onLoad: function() {
 			// f.getPlugin('ima').playAd('http://localhost/IHR/flowplayer/test.html/vast.ccempty.xml');
 			
@@ -60,7 +70,9 @@
 			
 			// f.getPlugin('ima').playAd('http://ad.doubleclick.net/pfadx/ccr.test;ccrcontent1=null;ccrcontent2=live;ccrcontent3=null;ccrlocalcontent=null;ccrpos=7005;sourceaffiliate=null;ccrformat=ACMAINSTREAM;ccrmarket=NEWYORK-NY;group=cc;sz=1000x27;u=ccrcontent1*null!ccrcontent2*live!ccrcontent3*null!ccrlocalcontent*null!ccrpos*7005!sourceaffiliate*null!ccrformat*ACMAINSTREAM!ccrmarket*NEWYORK-NY!group*cc!sz*1000x27;ord=1334675724927');
 			
-			f.getPlugin('ima').playAd('http://pubads.g.doubleclick.net/gampad/ads?sz=2x2&iu=%2F7282%2Fiheart.web%2Fcus%2Fnational%2Fcustom&ciu_szs=10x10%2C300x250%2C300x600%2C970x90&cust_params=seed%3D39335%26genre%3Dcustom%26grp%3Dcc%26ccrcontent1%3Dnull%26ccrcontent2%3Dnull%26ccrcontent3%3Dnull%26pp%3D8001%26g%3Dmale%26a%3D28%26rzip%3D10012%26at%3DIHR_FACEBOOK%26id%3D126252%26ts%3D1336591136415%26source%3Dnull&impl=s&gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&url=referrer_url&correlator=1336591136415');
+			f.getPlugin('ima').playAd('http://ad.doubleclick.net/pfadx/ccr.test;ccrcontent1=null;ccrcontent2=live;ccrcontent3=null;ccrlocalcontent=null;ccrpos=7005;visitnum=273;sourceaffiliate=null;ccrformat=ACRHYTHMIC;ccrmarket=EAUCLAIRE-WI;group=cc;sz=1000x27;u=hi;ord=1336426978356');
+			
+			// f.getPlugin('ima').playAd('http://pubads.g.doubleclick.net/gampad/ads?sz=2x2&iu=%2F7282%2Fiheart.web%2Fcus%2Fnational%2Fcustom&ciu_szs=10x10%2C300x250%2C300x600%2C970x90&cust_params=seed%3D39335%26genre%3Dcustom%26grp%3Dcc%26ccrcontent1%3Dnull%26ccrcontent2%3Dnull%26ccrcontent3%3Dnull%26pp%3D8001%26g%3Dmale%26a%3D28%26rzip%3D10012%26at%3DIHR_FACEBOOK%26id%3D126252%26ts%3D1336591136415%26source%3Dnull&impl=s&gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&url=referrer_url&correlator=1336591136415');
 		}
 	});
 	
