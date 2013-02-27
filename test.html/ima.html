@@ -27,7 +27,9 @@
 		<input type="button" id="stop" value="Stop" />
 	</div>
 	<div id="player" style="width: 800px; height: 400px; float: left;"></div>
-	<div id="playerCompanion" style="width: 300px; height: 250px; float: left; margin-left: 100px; border: 1px solid #f00;"></div>
+	<div id="playerCompanion300250" style="width: 300px; height: 250px; float: left; margin-left: 100px; border: 1px solid #f00;"></div>
+	<div id="playerCompanion5656" style="width: 56px; height: 56px; float: left; margin-left: 100px; border: 1px solid #f00;"></div>
+	<div id="playerCompanion500500" style="width: 56px; height: 56px; float: left; margin-left: 100px; border: 1px solid #f00;"></div>
 </body>
 
 <script type="text/javascript">
@@ -35,8 +37,15 @@
 	//and: http://www.google.com/support/dfp_premium/bin/answer.py?hl=en&answer=1191131
 	googletag.cmd.push(function() {
 		console.debug('setting up companion slots');
-		var adSlot1 = googletag.defineSlot('ccr.ihr/ihr4', [300, 250], 'playerCompanion');
-		adSlot1.addService(googletag.companionAds());
+		var adSlot = googletag.defineSlot('ccr.ihr/ihr4', [300, 250], 'playerCompanion300250');
+		adSlot.addService(googletag.companionAds());
+		
+		adSlot = googletag.defineSlot('ccr.ihr/ihr4', [56, 56], 'playerCompanion5656');
+		adSlot.addService(googletag.companionAds());
+		
+		adSlot = googletag.defineSlot('ccr.ihr/ihr4', [500, 500], 'playerCompanion500500');
+		adSlot.addService(googletag.companionAds());
+		
 		googletag.enableServices();
 	});
 	
@@ -45,9 +54,6 @@
 		log: {level: 'debug', filter: 'com.iheart.ima.*'},
 		
 		plugins: {
-			ima: {
-				url: '../ima/build/flowplayer.ima.swf'
-			}
 		},
 		
 		onLoad: function() {
@@ -65,11 +71,19 @@
 			// f.getPlugin('ima').playAd('http://pubads.g.doubleclick.net/gampad/ads?sz=2x2&iu=%2F7282%2Fiheart.web%2Fcus%2Fnational%2Fcustom&ciu_szs=10x10%2C300x250%2C300x600%2C970x90&cust_params=seed%3D39335%26genre%3Dcustom%26grp%3Dcc%26ccrcontent1%3Dnull%26ccrcontent2%3Dnull%26ccrcontent3%3Dnull%26pp%3D8001%26g%3Dmale%26a%3D28%26rzip%3D10012%26at%3DIHR_FACEBOOK%26id%3D126252%26ts%3D1336591136415%26source%3Dnull&impl=s&gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&url=referrer_url&correlator=1336591136415');
 			
 			
-			f.getPlugin('ima').playAd('http://pubads.g.doubleclick.net/gampad/ads?sz=2x2&iu=%2F7282%2Fiheart.web%2Fcus%2Fnational%2Fcustom&ciu_szs=10x10%2C300x250%2C300x600%2C970x90&cust_params=seed%3D34743%26genre%3Dcustom%26grp%3Dcc%26ccrcontent1%3Dnull%26ccrcontent2%3Dnull%26ccrcontent3%3Dnull%26pp%3D8001%26g%3Dmale%26a%3D28%26rzip%3D10012%26at%3DIHR_FACEBOOK%26id%3D126252%26ts%3D1336591136415%26source%3Dnull&impl=s&gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&url=referrer_url&correlator=1336591136415');
+			// f.getPlugin('ima').playAd('http://pubads.g.doubleclick.net/gampad/ads?sz=2x2&iu=%2F7282%2Fiheart.web%2Fcus%2Fnational%2Fcustom&ciu_szs=10x10%2C300x250%2C300x600%2C970x90&cust_params=seed%3D34743%26genre%3Dcustom%26grp%3Dcc%26ccrcontent1%3Dnull%26ccrcontent2%3Dnull%26ccrcontent3%3Dnull%26pp%3D8001%26g%3Dmale%26a%3D28%26rzip%3D10012%26at%3DIHR_FACEBOOK%26id%3D126252%26ts%3D1336591136415%26source%3Dnull&impl=s&gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&url=referrer_url&correlator=1336591136415');
 			
-			setTimeout(function() {
-				f.play();
-			}, 100);
+			f.play({
+				provider: 'ima',
+				url: 'http://localhost/IHR/flowplayer/test.html/vast.mixin.xml',
+				customProperties: {
+					test: 'hi'
+				}
+			});
+			
+			// setTimeout(function() {
+			// 	f.play();
+			// }, 100);
 		}
 	});
 	

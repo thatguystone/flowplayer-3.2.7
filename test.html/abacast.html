@@ -26,8 +26,8 @@ String.prototype.strip = function(chars) {
  */
 String.prototype.lstrip = function (/* optional */chars) {
   return chars
-    ? this.replace(new RegExp('^[' + chars + ']+'), '')
-    : this.replace(/^\s+/, '');
+	? this.replace(new RegExp('^[' + chars + ']+'), '')
+	: this.replace(/^\s+/, '');
 };
 
 /**
@@ -36,41 +36,45 @@ String.prototype.lstrip = function (/* optional */chars) {
  */
 String.prototype.rstrip = function (/* optional */chars) {
   return chars
-    ? this.replace(new RegExp('[' + chars + ']+$'), '')
-    : this.replace(/\s+$/, '');
+	? this.replace(new RegExp('[' + chars + ']+$'), '')
+	: this.replace(/\s+$/, '');
 };
 
   parseUrl = function(url) {
-    var data = {},
-        kv;
-    
-    //added an extra space to tokenizer from:
-    //http://stackoverflow.com/questions/168171/regular-expression-for-parsing-name-value-pairs
-    var tokenizer = /([^ =,]*)=("(?:\\.|[^"\\]+)*"|[^,"]*)/g;
-    
-    while (kv = tokenizer.exec(url)) {
-      data[kv[1]] = kv[2].toString().strip('"');
-    }
-    
-    return data;
+	var data = {},
+		kv;
+	
+	//added an extra space to tokenizer from:
+	//http://stackoverflow.com/questions/168171/regular-expression-for-parsing-name-value-pairs
+	var tokenizer = /([^ =,]*)=("(?:\\.|[^"\\]+)*"|[^,"]*)/g;
+	
+	while (kv = tokenizer.exec(url)) {
+	  data[kv[1]] = kv[2].toString().strip('"');
+	}
+	
+	return data;
   };
   
   
 	f = flowplayer('player', '../flowplayer/build/flowplayer.commercial-3.2.7.swf', {
 		debug: true,
-		log: {level: 'info', filter: 'org.flowplayer.rtmp.*'},
+		log: {level: 'debug', filter: 'org.flowplayer.rtmp.*,org.flowplayer.controller.ParallelRTMPConnector'},
 		
 		plugins: {
 			rtmp: {
-				url: '../rtmp/build/flowplayer.rtmp.swf'
-				//netConnectionUrl: 'rtmp://out4.atl.fla.abacast.com/abacast/',
+				subscribe: true
 			}
 		},
 		
 		onLoad: function() {
 			f.play({
 				provider: 'rtmp',
-				url: 'rtmp://out4.atl.fla.abacast.com/abacast/http://icy2.abacast.com/abacast-iheartreadio-48'
+				autoPlay: true,
+				autoBuffering: true,
+				// netConnectionUrl: 'rtmp://fml.7F25.planetstream.net/207F25/',
+				// url: 'amazing',
+				url: 'rtmp://fml.7F25.planetstream.net/207F25/amazing',
+				live: true,
 			});
 		},
 		
@@ -78,12 +82,12 @@ String.prototype.rstrip = function (/* optional */chars) {
 			onMetaData: function(data) {
 				var d = data.metaData,
 					start = d.StreamTitle.indexOf(' - '),
-            		url = parseUrl(d.StreamTitle.substring(start + 3)); //+3 -> ignore the delimeter
-            	
-            	data = {};
-        
-        		data.artistName = d.StreamTitle.substring(0, start); //the start of the string, up to the first key, is the title
-        		data.title = url.text;
+					url = parseUrl(d.StreamTitle.substring(start + 3)); //+3 -> ignore the delimeter
+				
+				data = {};
+		
+				data.artistName = d.StreamTitle.substring(0, start); //the start of the string, up to the first key, is the title
+				data.title = url.text;
 				
 				console.log(data, url);
 			}

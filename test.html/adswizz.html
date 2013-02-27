@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+	<title>Traffic Test</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<script type="text/javascript" src="flowplayer-3.2.6.js"></script>
+</head>
+
+<body>
+	<div id="player" style="width: 400px; height: 300px; float: left;"></div>
+</body>
+
+<script type="text/javascript">
+	url = 'rtmp://cp19974.live.edgefcs.net/live/Nyo_NY_WLTW-FM_OR@s7738?auth=daEbtcMaUavd8apdRbOcZd5aibBbgbadAay-brltbV-4q-UN5V6_2qlDFqp2CComCrEq&aifp=1234&CHANNELID=1477&CPROG=SIMULCAST&MARKET=NEWYORK-NY&REQUESTOR=WLTW-FM&SERVER_NAME=stg02-service.ccrd.clearchannel.com&SITE_ID=1873&STATION_ID=WLTW-FM&MNM=2&TYPEOFPLAY=0'.match(/(.*\/live\/)(.+)/);
+	
+	f = flowplayer('player', '../flowplayer/build/flowplayer.commercial-3.2.7.swf', {
+		debug: true,
+		log: {level: 'error', filter: '*'},
+		
+		// onLoad: function() {
+		// 	f.play({
+		// 		provider: 'rtmp',
+		// 		netConnectionUrl: url[1],
+		// 		url: url[2],
+		// 		live: true,
+		// 		subscribe: true
+		// 	});
+		// },
+		
+		clip: {
+			url: 'http://clearchanneltest.ic.cust.footprint.net:18080/iheartradio1live-live-stream_min_mn_1547?type=.flv',
+			live: true
+		}
+	});
+</script>
+
+</html>
