@@ -242,8 +242,8 @@ package org.flowplayer.controller {
         public function get bufferEnd():Number {
             if (! _netStream) return 0;
             if (! currentClipStarted()) return 0;
-            //            log.debug("bytes loaded: " + _netStream.bytesLoaded +", bytes total: " + _netStream.bytesTotal + ", duration: " + clip.durationFromMetadata);
-            return Math.min(_netStream.bytesLoaded / _netStream.bytesTotal * clip.durationFromMetadata, clip.duration);
+            // log.debug("bytes loaded: " + _netStream.bytesLoaded +", bytes total: " + _netStream.bytesTotal + ", bufferLength: " + (this.time + _netStream.bufferLength));
+            return _netStream.bufferLength;
         }
 
         /**
@@ -394,13 +394,14 @@ package org.flowplayer.controller {
          */
         protected function doPause(netStream:NetStream, event:ClipEvent = null):void {
             if (! netStream) return;
-//            if (clip.live) {
-//                log.debug("pausing a live stream, closing netStream");
-//                netStream.close();
-//            } else {
-//                netStream.pause();
-//            }
-            netStream.pause();
+            
+            if (clip.live) {
+                _netStream.close();
+                _netStream = null;
+            } else {
+                netStream.pause();
+            }
+            
             if (event) {
                 dispatchEvent(event);
             }
